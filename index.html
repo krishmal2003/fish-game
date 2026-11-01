@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Aether — Space Escape</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">✦</span><div><strong>PROJECT AETHER</strong><small>SPACE STATION ESCAPE</small></div></div>
+      <div class="top-actions"><span class="status-dot"></span><span id="systemStatus">SYSTEM ONLINE</span><span id="accountLabel" class="account-label"></span><button id="logoutBtn" class="icon-btn logout-btn">LOG OUT</button><button id="soundBtn" class="icon-btn" aria-label="Toggle sound">♫</button></div>
+    </header>
+
+
+    <section id="authScreen" class="screen auth-screen">
+      <div class="auth-visual">
+        <p class="eyebrow">SECURE CREW ACCESS</p>
+        <h1>WELCOME TO<br><span>PROJECT AETHER</span></h1>
+        <p>Sign in or create your crew account to begin the escape mission.</p>
+        <div class="auth-orbit"><div class="auth-planet"></div><span>✦</span></div>
+        <small>SPACE STATION // SECTOR 09</small>
+      </div>
+      <div class="auth-panel">
+        <div class="auth-tabs">
+          <button id="loginTab" class="auth-tab active">LOGIN</button>
+          <button id="registerTab" class="auth-tab">REGISTER</button>
+        </div>
+        <form id="loginForm" class="auth-form">
+          <p class="eyebrow">CREW MEMBER LOGIN</p>
+          <h2>Welcome back</h2>
+          <label class="field-label" for="loginEmail">EMAIL ADDRESS</label>
+          <input id="loginEmail" type="email" autocomplete="email" required placeholder="you@example.com">
+          <label class="field-label" for="loginPassword">PASSWORD</label>
+          <input id="loginPassword" type="password" autocomplete="current-password" required placeholder="Enter your password">
+          <button class="primary-btn" type="submit">LOGIN TO GAME <span>→</span></button>
+          <p id="loginMessage" class="auth-message"></p>
+          <p class="auth-switch">New crew member? <button type="button" id="goRegister">Create an account</button></p>
+        </form>
+        <form id="registerForm" class="auth-form hidden">
+          <p class="eyebrow">NEW CREW REGISTRATION</p>
+          <h2>Create account</h2>
+          <label class="field-label" for="registerName">CREW NAME</label>
+          <input id="registerName" maxlength="16" required placeholder="Your crew name">
+          <label class="field-label" for="registerEmail">EMAIL ADDRESS</label>
+          <input id="registerEmail" type="email" autocomplete="email" required placeholder="you@example.com">
+          <label class="field-label" for="registerPassword">PASSWORD</label>
+          <input id="registerPassword" type="password" minlength="6" autocomplete="new-password" required placeholder="At least 6 characters">
+          <label class="field-label" for="confirmPassword">CONFIRM PASSWORD</label>
+          <input id="confirmPassword" type="password" minlength="6" autocomplete="new-password" required placeholder="Enter password again">
+          <button class="primary-btn" type="submit">CREATE ACCOUNT <span>→</span></button>
+          <p id="registerMessage" class="auth-message"></p>
+          <p class="auth-switch">Already registered? <button type="button" id="goLogin">Login here</button></p>
+        </form>
+      </div>
+    </section>
+
+    <section id="menuScreen" class="screen menu-screen">
+      <div class="menu-copy">
+        <p class="eyebrow">CLASSIFIED MISSION // 07-A</p>
+        <h1>THE LAST<br><span>ESCAPE</span></h1>
+        <p class="intro">Your space station has been taken over. Restore the power, avoid hostile drones, recover the research data and reach the escape pod.</p>
+        <label class="field-label" for="crewName">CREW MEMBER</label>
+        <input id="crewName" maxlength="16" placeholder="Enter your name" value="Cadet">
+        <button id="startBtn" class="primary-btn">START MISSION <span>→</span></button>
+        <button id="howBtn" class="secondary-btn">HOW TO PLAY</button>
+      </div>
+      <div class="menu-art" aria-hidden="true">
+        <div class="planet"></div><div class="planet-ring"></div><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+        <div class="ship">▲</div><div class="star s1">✦</div><div class="star s2">✧</div><div class="star s3">·</div>
+        <div class="art-label">SECTOR 09<br><b>UNKNOWN SIGNAL</b></div>
+      </div>
+    </section>
+
+    <section id="howScreen" class="screen help-screen hidden">
+      <div class="panel">
+        <p class="eyebrow">MISSION BRIEFING</p><h2>HOW TO PLAY</h2>
+        <div class="help-grid">
+          <div><b>W A S D / ARROW KEYS</b><p>Move your astronaut around the station.</p></div>
+          <div><b>SPACE</b><p>Fire your blaster at hostile drones.</p></div>
+          <div><b>E</b><p>Interact with the terminal and escape pod.</p></div>
+          <div><b>MISSION</b><p>Collect the access key, activate the terminal, collect research data and escape.</p></div>
+        </div>
+        <button id="backBtn" class="primary-btn">BACK TO MENU</button>
+      </div>
+    </section>
+
+    <section id="gameScreen" class="screen game-screen hidden">
+      <div class="hud">
+        <div class="hud-item"><small>CREW</small><b id="hudCrew">CADET</b></div>
+        <div class="hud-item"><small>ENERGY</small><div class="meter"><i id="energyBar"></i></div><b id="energyText">100%</b></div>
+        <div class="hud-item"><small>DATA</small><b id="dataText">0 / 1</b></div>
+        <div class="hud-item"><small>SCORE</small><b id="scoreText">0000</b></div>
+        <button id="pauseBtn" class="pause-btn">Ⅱ</button>
+      </div>
+      <div class="game-wrap">
+        <canvas id="gameCanvas" width="960" height="560" aria-label="Space Escape game"></canvas>
+        <div id="toast" class="toast hidden"></div>
+        <div id="prompt" class="prompt hidden">PRESS E TO INTERACT</div>
+        <div id="overlay" class="overlay hidden">
+          <div class="overlay-card"><p class="eyebrow" id="overlayEyebrow">MISSION UPDATE</p><h2 id="overlayTitle">PAUSED</h2><p id="overlayText">Mission paused.</p><button id="overlayBtn" class="primary-btn">RESUME</button><button id="menuBtn" class="secondary-btn">MAIN MENU</button></div>
+        </div>
+      </div>
+      <div class="game-footer"><span>SECTOR 09 // DECK <b id="roomName">BRIDGE</b></span><span id="objective">OBJECTIVE: FIND THE ACCESS KEY</span><span>WASD MOVE · SPACE FIRE · E INTERACT</span></div>
+    </section>
+
+    <section id="apiModal" class="modal hidden">
+      <div class="modal-card">
+        <button id="closeApi" class="close-btn">×</button>
+        <p class="eyebrow">STATION SECURITY // API CHALLENGE</p><h2>UNLOCK THE TERMINAL</h2>
+        <p class="modal-intro">Solve the Fish Game challenge to restore the station power.</p>
+        <div id="apiQuestion" class="api-question"><span class="loader"></span> Loading challenge…</div>
+        <label class="field-label" for="fishAnswer">YOUR ANSWER</label>
+        <input id="fishAnswer" type="number" min="0" max="9" placeholder="Enter the missing number">
+        <button id="submitFish" class="primary-btn">SUBMIT CODE</button>
+        <p id="apiFeedback" class="feedback"></p>
+      </div>
+    </section>
+
+    <footer class="footer">PROJECT AETHER <span>·</span> WEB GAME PROTOTYPE <span>·</span> 2026</footer>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
